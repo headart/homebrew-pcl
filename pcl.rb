@@ -5,17 +5,17 @@ class Pcl < Formula
   version '1.6.0'
   url 'https://github.com/PointCloudLibrary/pcl.git', :tag => 'pcl-1.6.0'
 
-	devel do
+  devel do
     version '1.7.0'
-		url 'https://github.com/PointCloudLibrary/pcl.git', :tag => 'pcl-1.7.0'
-	end
+    url 'https://github.com/PointCloudLibrary/pcl.git', :tag => 'pcl-1.7.0'
+  end
 
   head 'https://github.com/PointCloudLibrary/pcl.git', :branch => 'master'
 
-fails_with :clang do
-		build 421
-		cause "Compilation fails with clang"
-	end
+  fails_with :clang do
+  	build 421
+	cause "Compilation fails with clang"
+  end
 
   depends_on 'cmake'
   depends_on 'boost'
@@ -116,10 +116,6 @@ fails_with :clang do
     if ARGV.include? '--novis'
       args << "-DBUILD_visualization:BOOL=OFF"
     end
-
-		boost149_base    = Formula.factory('boost149').installed_prefix
-		boost149_include = File.join(boost149_base, 'include')
-		args << "-DBoost_INCLUDE_DIR=#{boost149_include}"
 
     # fix bad glew detection
 		glew_base    = Formula.factory('glew').installed_prefix
