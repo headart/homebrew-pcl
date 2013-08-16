@@ -12,7 +12,7 @@ class Pcl < Formula
 
   head 'https://github.com/PointCloudLibrary/pcl.git', :branch => 'master'
 
-	fails_with :clang do
+fails_with :clang do
 		build 421
 		cause "Compilation fails with clang"
 	end
@@ -57,71 +57,64 @@ class Pcl < Formula
   def install
     args = std_cmake_parameters.split
 
-    args << "-DBUILD_documentation:BOOL=ON"  if build.include? '--doc'
-		args << "-DBUILD_features:BOOL=OFF"      if build.include? '--nofeatures'
-		args << "-DBUILD_filters:BOOL=OFF"       if build.include? '--nofilters'
-		args << "-DBUILD_io:BOOL=OFF"            if build.include? '--noio'
-		args << "-DBUILD_kdtree:BOOL=OFF"        if build.include? '--nokdtree'
-		args << "-DBUILD_keypoints:BOOL=OFF"     if build.include? '--nokeypoints'
-		args << "-DBUILD_octree:BOOL=OFF"        if build.include? '--nooctree'
-		args << "-DBUILD_registration:BOOL=OFF"  if build.include? '--noregistration'
-		args << "-DBUILD_search:BOOL=OFF"        if build.include? '--nosearch'
-		args << "-DBUILD_segmentation:BOOL=OFF"  if build.include? '--nosegmentation'
-		args << "-DBUILD_tools:BOOL=OFF"         if build.include? '--notools'
-		args << "-DBUILD_tracking:BOOL=OFF"      if build.include? '--notracking'
-		args << "-DBUILD_visualization:BOOL=OFF" if build.include? '--novis'
-    # default on
-		args << "-DBUILD_apps:BOOL=ON"
-    args << "-DBUILD_2d:BOOL=ON"
-    args << "-DBUILD_3d_rec_framework:BOOL=ON"
-    args << "-DBUILD_CUDA:BOOL=ON"
-    args << "-DBUILD_GPU:BOOL=ON"
-    args << "-DBUILD_OPENNI:BOOL=ON"
-    args << "-DBUILD_common:BOOL=ON"
-    args << "-DBUILD_cuda_apps:BOOL=ON"
-    args << "-DBUILD_cuda_io:BOOL=ON"
-    args << "-DBUILD_examples:BOOL=ON"
-    args << "-DBUILD_filters:BOOL=ON"
-    args << "-DBUILD_geometry:BOOL=ON"
-    args << "-DBUILD_global_tests:BOOL=ON"
-    args << "-DBUILD_gpu_containers:BOOL=ON"
-    args << "-DBUILD_gpu_features:BOOL=ON"
-    args << "-DBUILD_gpu_kinfu:BOOL=ON"
-    args << "-DBUILD_gpu_kinfu_large_scale:BOOL=ON"
-    args << "-DBUILD_gpu_octree:BOOL=ON"
-    args << "-DBUILD_gpu_segmentation:BOOL=ON"
-    args << "-DBUILD_gpu_surface:BOOL=ON"
-    args << "-DBUILD_gpu_utils:BOOL=ON"
-    args << "-DBUILD_ml:BOOL=ON"
-    args << "-DBUILD_outofcore:BOOL=ON"
-    args << "-DBUILD_recognition:BOOL=ON"
-    args << "-DBUILD_sample_consensus:BOOL=ON"
-    args << "-DBUILD_stereo:BOOL=ON"
-    # default off
-    args << "-DBUILD_app_3d_rec_framework:BOOL=OFF"
-    args << "-DBUILD_app_cloud_composer:BOOL=OFF"
-    args << "-DBUILD_app_in_hand_scanner:BOOL=OFF"
-    args << "-DBUILD_app_modeler:BOOL=OFF"
-    args << "-DBUILD_app_optronic_viewer:BOOL=OFF"
-    args << "-DBUILD_app_point_cloud_editor:BOOL=OFF"
-    args << "-DBUILD_gpu_people:BOOL=OFF"
-    args << "-DBUILD_gpu_tracking:BOOL=OFF"
-    args << "-DBUILD_simulation:BOOL=OFF"
-
-    ENV['CFLAGS']   ||= ''
-    ENV['CXXFLAGS'] ||= ''
-
-    if build.include? '--with-debug'
-      ENV['CFLAGS']   += "-ggdb3 -O0"
-      ENV['CXXFLAGS'] += "-ggdb3 -O0"
-			args.delete '-DCMAKE_BUILD_TYPE=None'
-			args << "-DCMAKE_BUILD_TYPE=Debug"
-			args << "-DCMAKE_VERBOSE_MAKEFILE=true"
-      debug_flags = "-ggdb3 -O0 -fno-inline -ggdb3"
-			args << "-DCMAKE_C_FLAGS_DEBUG='#{debug_flags}'"
-			args << "-DCMAKE_CXX_FLAGS_DEBUG='#{debug_flags}'"
+    if ARGV.include? '--noapps'
+      args << "-DBUILD_apps:BOOL=OFF"
+    end
+    if ARGV.include? '--doc'
+      args << "-DBUILD_documentation:BOOL=ON"
     else
-			args << "-DCMAKE_BUILD_TYPE=Release"
+      args << "-DBUILD_documentation:BOOL=OFF"
+    end
+    if ARGV.include? '--nofeatures'
+      args << "-DBUILD_features:BOOL=OFF"
+    end
+    if ARGV.include? '--nofilters'
+      args << "-DBUILD_filters:BOOL=OFF"
+    end
+    if ARGV.include? '--noio'
+      args << "-DBUILD_io:BOOL=OFF"
+    end
+    if ARGV.include? '--nokdtree'
+      args << "-DBUILD_kdtree:BOOL=OFF"
+    end
+    if ARGV.include? '--nokeypoints'
+      args << "-DBUILD_keypoints:BOOL=OFF"
+    end
+    if ARGV.include? '--nooctree'
+      args << "-DBUILD_octree:BOOL=OFF"
+    end
+    if ARGV.include? '--noproctor'
+      args << "-DBUILD_proctor:BOOL=OFF"
+    end
+    if ARGV.include? '--nopython'
+      args << "-DBUILD_python:BOOL=OFF"
+    end
+    if ARGV.include? '--norangeimage'
+      args << "-DBUILD_rangeimage:BOOL=OFF"
+    end
+    if ARGV.include? '--noregistration'
+      args << "-DBUILD_registration:BOOL=OFF"
+    end
+    if ARGV.include? '--nosac'
+      args << "-DBUILD_sac:BOOL=OFF"
+    end
+    if ARGV.include? '--nosearch'
+      args << "-DBUILD_search:BOOL=OFF"
+    end
+    if ARGV.include? '--nosegmentation'
+      args << "-DBUILD_segmentation:BOOL=OFF"
+    end
+    if ARGV.include? '--nosurface'
+      args << "-DBUILD_surface:BOOL=OFF"
+    end
+    if ARGV.include? '--notools'
+      args << "-DBUILD_tools:BOOL=OFF"
+    end
+    if ARGV.include? '--notracking'
+      args << "-DBUILD_tracking:BOOL=OFF"
+    end
+    if ARGV.include? '--novis'
+      args << "-DBUILD_visualization:BOOL=OFF"
     end
 
 		boost149_base    = Formula.factory('boost149').installed_prefix
@@ -158,3 +151,4 @@ class Pcl < Formula
     system "bash -c 'echo | plyheader'"
   end
 end
+
