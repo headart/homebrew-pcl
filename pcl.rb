@@ -2,17 +2,15 @@ require 'formula'
 
 class Pcl < Formula
   homepage 'http://www.pointclouds.org'
-  version '1.5.1'
-  url 'http://www.pointclouds.org/assets/files/1.5.1/PCL-1.5.1-Source.tar.bz2'
-	sha256 '6ab3b0a95e78888ff9779ec841e398f8b96c20eda4a3ce65ee647c1d7cc2b637'
+  version '1.6.0'
+  url 'https://github.com/PointCloudLibrary/pcl.git', :tag => 'pcl-1.6.0'
 
 	devel do
-    version '1.6.0'
-		url 'http://www.pointclouds.org/assets/files/1.6.0/PCL-1.6.0-Source.tar.bz2'
-		sha256 '3d384a37ce801a75c8995801e650a5e2c13e0d67541aa676cad4fa27996ce346'
+    version '1.7.0'
+		url 'https://github.com/PointCloudLibrary/pcl.git', :tag => 'pcl-1.7.0'
 	end
 
-  head 'http://svn.pointclouds.org/pcl/trunk'
+  head 'https://github.com/PointCloudLibrary/pcl.git', :branch => 'master'
 
 	fails_with :clang do
 		build 421
@@ -20,7 +18,7 @@ class Pcl < Formula
 	end
 
   depends_on 'cmake'
-  depends_on 'boost149'
+  depends_on 'boost'
   depends_on 'eigen'
   depends_on 'flann'
   depends_on 'cminpack'
